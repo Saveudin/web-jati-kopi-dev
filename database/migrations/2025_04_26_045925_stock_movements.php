@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('stock_movements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('raw_material_id')->constrained()->onDelete('cascade');
+            $table->integer('change');
             $table->string('type');
-            $table->integer('quantity');
-            $table->text('note');
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }
@@ -24,8 +24,8 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-        //
-    }
+        public function down(): void
+        {
+            Schema::dropIfExists('stock_movements');
+        }
 };

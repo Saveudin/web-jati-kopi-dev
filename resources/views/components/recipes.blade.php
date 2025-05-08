@@ -21,12 +21,12 @@
         <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
             <!-- Start coding here -->
             <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-                <div class="flex flex-col md:flex-row items-center justify-center space-y-3 md:space-y-0 md:space-x-4 p-4">
+                <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                     <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
                         {{-- Toggle Modal --}}
                         <div class="flex justify-center m-5">
                             <button id="defaultModalButton" data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="block text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" type="button">
-                            Create material
+                            Create recipe
                             </button>
                         </div>
                         {{-- Toggle Modal End --}}
@@ -37,9 +37,9 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-4 py-3">ID</th>
-                                <th scope="col" class="px-4 py-3">Name</th>
-                                <th scope="col" class="px-4 py-3">Price</th>
-                                <th scope="col" class="px-4 py-3">Stock</th>
+                                <th scope="col" class="px-4 py-3">Product Name</th>
+                                <th scope="col" class="px-4 py-3">Material Name</th>
+                                <th scope="col" class="px-4 py-3">Quantity</th>
                                 <th scope="col" class="px-4 py-3">Unit</th>
                                 <th scope="col" class="px-4 py-3">
                                     <span class="sr-only">Actions</span>
@@ -50,20 +50,20 @@
 
                             {{-- Foreach table --}}
 
-                            @foreach ($materials as $item)
+                            @foreach ($recipes as $item)
                             
                             <tr class="border-b dark:border-gray-700">
                                 <td class="px-4 py-3">{{ $item->id }}</td>
-                                <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $item->name }}</th>
-                                <td class="px-4 py-3">{{ $item->price }}</td>
-                                <td class="px-4 py-3">{{ $item->stock }}</td>
+                                <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $item->product->name }}</th>
+                                <td class="px-4 py-3">{{ $item->rawMaterial->name }}</td>
+                                <td class="px-4 py-3">{{ $item->quantity }}</td>
                                 <td class="px-4 py-3">{{ $item->unit }}</td>
                                 <td class="px-4 py-3 flex items-center justify-end">
                                     <!-- Modal toggle Update -->
                                     <div class="flex justify-center m-5">
                                         <button id="updateProductButton"
                                         data-modal-target="updateProductModal{{ $item->id }}" data-modal-toggle="updateProductModal{{ $item->id }}" class="block text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" type="button">
-                                        Update material
+                                        Update recipe
                                         </button>
                                     </div>
                                 </td>
@@ -76,7 +76,7 @@
                                         <!-- Modal header -->
                                         <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                                Update Product
+                                                Update Recipe
                                             </h3>
                                             <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="updateProductModal{{ $item->id }}">
                                                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -84,37 +84,39 @@
                                             </button>
                                         </div>
                                         <!-- Modal body -->
-                                        <form action="{{ route('material.update', ['id' => $item->id]) }}" method="POST">
+                                        <form action="{{ route('recipe.update', ['id' => $item->id]) }}" method="POST">
                                             @csrf
                                             @method('PUT')
                                             <div class="grid gap-4 mb-4 sm:grid-cols-2">
                                                 <div>
-                                                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                                                    <input type="text" name="name" id="update-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $item->name }}">
-                                                </div>
-                                                <div>
-                                                    <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-                                                    <input type="text" name="price" id="update-price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $item->price }}">
-                                                </div>
-                                                <div>
-                                                    <label for="stock" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stock</label>
-                                                    <input type="number" name="stock" id="update-price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $item->stock }}">
-                                                </div>
-                                                <div>
-                                                    <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit</label>
-                                                    <select id="unit" name="unit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                        <option {{ $item->unit == 'gram' ? 'selected' : '' }} value="gram">gram</option>
-                                                        <option {{ $item->unit == 'mililiter' ? 'selected' : '' }} value="mililiter">mililiter</option>
+                                                    <label for="product" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product</label>
+                                                    <select id="product" name="product_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+                                                        <option value="" disabled>Select a product</option>
+                                                        @foreach ($products as $product)
+                                                        <option value="{{ $product->id }}" {{ $product->id == $item->product_id ? 'selected' : ''}}>{{ $product->name }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
-                                                
-                                            </div>
+                                                <div>
+                                                    <label for="materials" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingredients</label>
+                                                    <select name="raw_material_id" class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+                                                        @foreach ($materials as $material)
+                                                            <option value="{{ $material->id }}" {{ $material->id == $item->raw_material_id ? 'selected' : '' }}>{{ $material->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="number" step="0.01" name="quantity" value="{{ $item->quantity }}" required>
+                                                    <select id="unit" name="unit" class="mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                                        <option value="" disabled selected>Select a unit</option>
+                                                        <option value="gram">gram</option>
+                                                        <option value="mililiter">mililiter</option>
+                                                    </select>
+                                                </div>
                                             <div class="flex items-center space-x-4">
                                                 <button type="submit" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                                    Update product
+                                                    Update Recipe
                                                 </button>
                                             </form>
-                                                <form action="{{ route('material.delete', ['id'=> $item->id]) }}" method="POST">
+                                                <form action="{{ route('recipe.delete', ['id'=> $item->id]) }}" method="POST">
                                                     @csrf
                                                     @method('delete')
                                                     <button type="submit" class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
@@ -194,33 +196,44 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form action="{{ route('material.post') }}" method="POST">
+            <form action="{{ route('recipe.post') }}" method="POST">
                 @csrf
                 <div class="grid gap-4 mb-4 sm:grid-cols-2">
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                        <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type material name" required="">
+                        <label for="product" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product</label>
+                        <select id="product" name="product_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+                            <option value="" disabled selected>Select a product</option>
+                            @foreach ($products as $product)
+                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div>
-                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-                        <input type="number" name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
-                    </div>
-                    <div>
-                        <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stock</label>
-                        <input type="number" name="stock" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Stock" required="">
-                    </div>
-                    <div>
-                        <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit</label>
-                        <select id="category" name="unit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    {{-- <div>
+                        <label for="quantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quantity</label>
+                        <input type="number" name="quantity" id="quantity" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Quantity" required="">
+                    </div> --}}
+                    <div class="max-h-96 overflow-y-auto">
+                    <div id="ingredients">
+                        <div class="ingredient-row">
+                            <label for="materials" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingredients</label>
+                            <select name="raw_materials[]" class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+                                @foreach ($materials as $material)
+                                    <option value="{{ $material->id }}">{{ $material->name }}</option>
+                                @endforeach
+                            </select>
+                            <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="number" step="0.01" name="quantities[]" placeholder="Quantity" required>
+                        <select id="unit" name="unit" class="mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <option value="" disabled selected>Select a unit</option>
                             <option value="gram">gram</option>
                             <option value="mililiter">mililiter</option>
                         </select>
+                            <button type="button" class="remove-row mt-2 text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Remove</button>
+                        </div>
                     </div>
+                    </div>
+                    <button type="button" id="add-row" class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">+ Add Ingredient</button>
+                    <button type="submit" class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Save recipe</button>
                 </div>
-                <button type="submit" class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                    <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-                    Add new product
-                </button>
             </form>
         </div>
     </div>
@@ -253,6 +266,43 @@
                 document.getElementById("update-unit").value = unit;
             });
         });
-    });
 </script>
 </x-layout>
+
+{{-- <form method="POST" action="{{ route('recipe.post') }}">
+    @csrf
+    <label>Produk:</label>
+    <select name="product_id" required>
+        @foreach ($products as $product)
+            <option value="{{ $product->id }}">{{ $product->name }}</option>
+        @endforeach
+    </select>
+
+    <div id="ingredients">
+        <div class="ingredient-row">
+            <select name="raw_materials[]">
+                @foreach ($materials as $material)
+                    <option value="{{ $material->id }}">{{ $material->name }}</option>
+                @endforeach
+            </select>
+            <input type="number" step="0.01" name="quantities[]" placeholder="Jumlah" required>
+            <button type="button" class="remove-row">🗑</button>
+        </div>
+    </div>
+
+    <button type="button" id="add-row">+ Tambah Bahan</button>
+    <button type="submit">Simpan Resep</button>
+</form>--}}
+
+<script>
+    document.getElementById('add-row').addEventListener('click', function() {
+        const row = document.querySelector('.ingredient-row').cloneNode(true);
+        document.getElementById('ingredients').appendChild(row);
+    });
+
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-row')) {
+            e.target.parentElement.remove();
+        }
+    });
+</script> 

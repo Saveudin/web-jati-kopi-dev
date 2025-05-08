@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RawMaterial;
 use Illuminate\Http\Request;
+use App\Models\StockMovement;
 
 class MaterialController extends Controller
 {
@@ -49,6 +50,14 @@ class MaterialController extends Controller
         // Validate the request data
         if ($validated) {
             RawMaterial::create($data);
+            $material = RawMaterial::where('name', $request->input('name'))->first();
+            StockMovement::create([
+                'raw_material_id' => $material->id,
+                'change' => +$request->input('stock'),
+                'type' => 'restock',
+                'note' => 'Restock',
+                'created_at' => now(),
+            ]);
             return redirect()->route('materials')->with('success', 'Material added successfully');
         }
         else {
@@ -80,7 +89,7 @@ class MaterialController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|max:30',
-            'price' => 'required|max:12|integer',
+            'price' => 'required|min:1|integer',
             'stock' => 'required|min:1|integer',
             'unit' => 'required'
         ]);
@@ -96,6 +105,14 @@ class MaterialController extends Controller
         if ($validated) {
             // return redirect()->back()->withErrors('All fields are required.');
             RawMaterial::where('id', $id)->update($data);
+            $material = RawMaterial::find($id);
+            StockMovement::create([
+                'raw_material_id' => $material->id,
+                'change' => +$request->input('stock'),
+                'type' => 'restock',
+                'note' => 'Edit Stock',
+                'created_at' => now(),
+            ]);
             return redirect(route('materials'))->with('success', 'Task updated successfully');
         }
         else {
@@ -111,6 +128,14 @@ class MaterialController extends Controller
         // Find the material by ID and delete it
         $material = RawMaterial::find($id);
         if ($material) {
+            // update stock movement
+            StockMovement::create([
+                'raw_material_id' => $material->id,
+                'change' => -$material->stock,
+                'type' => 'delete',
+                'note' => 'Delete Material',
+                'created_at' => now(),
+            ]);
             $material->delete();
             return redirect()->route('materials')->with('success', 'Material deleted successfully');
         } else {

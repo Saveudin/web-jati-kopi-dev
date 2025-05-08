@@ -79,7 +79,29 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'category' => 'required',
+            'name' => 'required|max:30',
+            'price' => 'required|min:1|integer',
+            'stock' => 'required|min:1|integer',
+        ]);
+
+        $data = [
+            'category_id' => $request->input('category'),
+            'name' => $request->input('name'),
+            'price' => $request->input('price'),
+            'stock' => $request->input('stock'),
+        ];
+
+        //validate the request data
+        if ($validated) {
+            // return redirect()->back()->withErrors('All fields are required.');
+            Product::where('id', $id)->update($data);
+            return redirect(route('products'))->with('success', 'Task updated successfully');
+        }
+        else {
+            return redirect()->back()->withErrors('Invalid data provided.');
+        }
     }
 
     /**
@@ -87,6 +109,12 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::find($id);
+        if ($product) {
+            $product->delete();
+            return redirect()->route('products')->with('success', 'product deleted successfully');
+        } else {
+            return redirect()->route('products')->with('error', 'product not found');
+        }
     }
 }

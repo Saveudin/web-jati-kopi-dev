@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Category;
+use App\Models\Recipe;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -20,7 +21,7 @@ class Product extends Model
         'stock',
     ];
 
-    public function rawMaterials()
+    public function rawMaterial()
     {
         return $this->belongsToMany(RawMaterial::class);
     }
@@ -28,6 +29,14 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+    public function recipes()
+    {
+        return $this->hasMany(Recipe::class);
+    }
+    public function saleItems()
+    {
+        return $this->hasMany(SaleItem::class);
     }
 }
 
