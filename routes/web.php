@@ -13,9 +13,9 @@ Route::get('/', function () {
 });
 
 
-Route::get('/admin', function() {
-    return view('components.home');
-})->name('admin');
+// Route::get('/admin', function() {
+//     return view('components.home');
+// })->name('admin');
 
 Route::get('/admin/materials', [MaterialController::class, 'index'])->name('materials');
 Route::post('/admin/material', [MaterialController::class, 'store'])->name('material.post');
@@ -38,7 +38,7 @@ Route::delete('/admin/recipe/{id}', [RecipeController::class, 'destroy'])->name(
 
 Route::get('/admin/sales', [SaleController::class, 'index'])->name('sales');
 Route::post('/admin/sale', [SaleController::class, 'store'])->name('sale.post');
-Route::get('/admin/sales-report', [SaleController::class, 'report'])->name('sales.report');
+Route::get('/admin', [SaleController::class, 'report'])->name('sales.report');
 Route::get('/admin/sales-report/pdf', [SaleController::class, 'exportPDF'])->name('sales.export.pdf');
 
 Route::get('/stock-movements', [StockMovementController::class, 'index'])->name('stock_movements.index');
