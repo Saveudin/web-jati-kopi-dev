@@ -1,13 +1,13 @@
 <x-layout>
-<div class="antialiased bg-gray-50 dark:bg-gray-900">
-    {{-- <nav class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
+<div class="antialiased bg-gray-50">
+    {{-- <nav class="bg-white border-b border-gray-200 px-4 py-2.5 fixed left-0 right-0 top-0 z-50">
       <div class="flex flex-wrap justify-between items-center">
         <div class="flex justify-start items-center">
           <button
             data-drawer-target="drawer-navigation"
             data-drawer-toggle="drawer-navigation"
             aria-controls="drawer-navigation"
-            class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100"
           >
             <svg
               aria-hidden="true"
@@ -45,50 +45,50 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <div
-          class="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 h-32 md:h-64"
+          class="border-2 border-dashed border-gray-300 rounded-lg h-32 md:h-64"
         ></div>
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64"
+          class="border-2 border-dashed rounded-lg border-gray-300 h-32 md:h-64"
         ></div>
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64"
+          class="border-2 border-dashed rounded-lg border-gray-300 h-32 md:h-64"
         ></div>
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64"
+          class="border-2 border-dashed rounded-lg border-gray-300 h-32 md:h-64"
         ></div>
       </div>
       <div
-        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"
+        class="border-2 border-dashed rounded-lg border-gray-300 h-96 mb-4"
       ></div>
       <div class="grid grid-cols-2 gap-4 mb-4">
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+          class="border-2 border-dashed rounded-lg border-gray-300 h-48 md:h-72"
         ></div>
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+          class="border-2 border-dashed rounded-lg border-gray-300 h-48 md:h-72"
         ></div>
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+          class="border-2 border-dashed rounded-lg border-gray-300 h-48 md:h-72"
         ></div>
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+          class="border-2 border-dashed rounded-lg border-gray-300 h-48 md:h-72"
         ></div>
       </div>
       <div
-        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"
+        class="border-2 border-dashed rounded-lg border-gray-300 h-96 mb-4"
       ></div>
       <div class="grid grid-cols-2 gap-4">
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+          class="border-2 border-dashed rounded-lg border-gray-300 h-48 md:h-72"
         ></div>
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+          class="border-2 border-dashed rounded-lg border-gray-300 h-48 md:h-72"
         ></div>
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+          class="border-2 border-dashed rounded-lg border-gray-300 h-48 md:h-72"
         ></div>
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+          class="border-2 border-dashed rounded-lg border-gray-300 h-48 md:h-72"
         ></div>
       </div>
   </div>

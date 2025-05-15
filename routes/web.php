@@ -7,15 +7,20 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\StockMovementController;
+use App\Http\Controllers\StockDashboardController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::middleware(['auth'])->group(function () {
+// Route::get('/dashboard', fn() => redirect('/admin/sales'))->middleware('auth');
 
-Route::get('/admin', function() {
-    return view('components.home');
-})->name('admin');
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');
+
 
 Route::get('/admin/materials', [MaterialController::class, 'index'])->name('materials');
 Route::post('/admin/material', [MaterialController::class, 'store'])->name('material.post');
@@ -36,10 +41,13 @@ Route::post('/admin/recipe', [RecipeController::class, 'store'])->name('recipe.p
 Route::put('/admin/recipe/{id}', [RecipeController::class, 'update'])->name('recipe.update');
 Route::delete('/admin/recipe/{id}', [RecipeController::class, 'destroy'])->name('recipe.delete');
 
-Route::get('/admin/sales', [SaleController::class, 'index'])->name('sales');
+Route::get('/dashboard', [SaleController::class, 'index'])->name('dashboard');
 Route::post('/admin/sale', [SaleController::class, 'store'])->name('sale.post');
-Route::get('/admin/sales-report', [SaleController::class, 'report'])->name('sales.report');
+Route::get('/admin', [SaleController::class, 'report'])->name('sales.report');
 Route::get('/admin/sales-report/pdf', [SaleController::class, 'exportPDF'])->name('sales.export.pdf');
 
 Route::get('/stock-movements', [StockMovementController::class, 'index'])->name('stock_movements.index');
+Route::get('/dashboard/stock', [StockDashboardController::class, 'index'])->name('dashboard.stock');
+});
 
+require __DIR__.'/auth.php';
