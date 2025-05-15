@@ -122,14 +122,14 @@ public function store(Request $request)
             StockMovement::create([
                 'raw_material_id' => $recipe->raw_material_id,
                 'change' => -$usedQty,
-                'type' => 'usage',
+                'type' => 'out',
                 'note' => 'Digunakan untuk penjualan produk: ' . $product->name,
                 'created_at' => now(),
             ]);
             
         }
     }
-    return redirect()->route('sales')->with('success', 'Transaksi berhasil disimpan');
+    return redirect()->route('dashboard')->with('success', 'Transaksi berhasil disimpan');
 }
 
 

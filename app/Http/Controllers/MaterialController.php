@@ -109,7 +109,7 @@ class MaterialController extends Controller
             StockMovement::create([
                 'raw_material_id' => $material->id,
                 'change' => +$request->input('stock'),
-                'type' => 'restock',
+                'type' => 'out',
                 'note' => 'Edit Stock',
                 'created_at' => now(),
             ]);
