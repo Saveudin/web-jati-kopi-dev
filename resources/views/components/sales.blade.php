@@ -1,3 +1,10 @@
+{{-- <h1>Halo, {{ Auth::user()->name }}</h1>
+<form action="{{ route('logout') }}" method="POST">
+    @csrf
+    <button type="submit">Logout</button>
+</form> --}}
+
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <x-layout>
