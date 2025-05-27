@@ -8,14 +8,15 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\StockMovementController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\RedirectIfAuthenticatedCustom;
 
 Route::middleware(RedirectIfAuthenticatedCustom::class)->group(function () {
 // Login & Register
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 });
+
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -24,6 +25,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return redirect()->route('sales.report');
 })->name('dashboard');
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::resource('/users', UserController::class);
+    // Route::get('/users', [UserController::class, 'index'])->name('users');
+});
+
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+
+Route::get('/users', [UserController::class, 'index'])->name('users');
+// Route::post('/user', [UserController::class, 'store'])->name('user.post');
+Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
+Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.delete');
+
 
 Route::get('/admin/materials', [MaterialController::class, 'index'])->name('materials');
 Route::post('/admin/material', [MaterialController::class, 'store'])->name('material.post');

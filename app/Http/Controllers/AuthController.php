@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    
     public function showLoginForm() {
         return view('auth.login');
     }
@@ -30,9 +31,9 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        Auth::login($user);
+        // Auth::login($user);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('users');
     }
 
     public function login(Request $request) {

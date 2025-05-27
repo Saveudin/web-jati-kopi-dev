@@ -20,7 +20,4 @@
     </div>
     <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Register</button>
 </form>
-<div class="text-center mt-4">
-    <a href="{{ route('login') }}" class="text-blue-600 hover:underline">Back to Login</a>
-</div>
 </section>
