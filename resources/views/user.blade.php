@@ -38,6 +38,7 @@
                             <tr>
                                 <th scope="col" class="px-4 py-3">Name</th>
                                 <th scope="col" class="px-4 py-3">Email</th>
+                                <th scope="col" class="px-4 py-3">Role</th>
                                 <th scope="col" class="px-4 py-3">Created At</th>
                                 <th scope="col" class="px-4 py-3 text-center">Actions</th>
                             </tr>
@@ -51,6 +52,7 @@
                             <tr class="border-b dark:border-gray-700">
                                 <td class="px-4 py-3">{{ $user->name }}</td>
                                 <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $user->email }}</th>
+                                <td class="px-4 py-3">{{ $user->role }}</td>
                                 <td class="px-4 py-3">{{ $user->created_at }}</td>
                                 <td class="px-4 py-3 flex items-center justify-center">
                                     <!-- Modal toggle Update -->
@@ -84,17 +86,17 @@
                                             <div class="grid gap-4 mb-4 sm:grid-cols-2">
                                                 <div>
                                                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                                                    <input type="text" name="name" id="update-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $user->name }}">
+                                                    <input type="text" name="name" id="update-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $user->name }}" required>
                                                 </div>
                                                 <div>
-                                                    <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                                                    <input type="password" name="password" id="update-price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                                    <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Password</label>
+                                                    <input type="password" name="password" id="update-price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                                 </div>
                                                 <div>
                                                     <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
                                                     <select id="unit" name="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                        <option value="admin">admin</option>
-                                                        <option value="user">user</option>
+                                                        <option value="super_admin">Super Admin</option>
+                                                        <option value="admin">Admin</option>
                                                     </select>
                                                 </div>
                                                 

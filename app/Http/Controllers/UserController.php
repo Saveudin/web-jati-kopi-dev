@@ -55,7 +55,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'password' => 'nullable|min:6',
-            'role' => 'required|in:user,admin',
+            'role' => 'required|in:admin,super_admin',
         ]);
 
         $user = User::findOrFail($id);
@@ -79,6 +79,9 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('users')->with('success', 'User deleted successfully.');
     }
 }

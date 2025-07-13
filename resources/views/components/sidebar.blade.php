@@ -175,7 +175,7 @@
               </li>
             </ul>
           @auth
-            @if(auth()->user()->role === 'admin')
+            @if(auth()->user()->role === 'super_admin')
               <li>
                 <a
                   href="/users"

@@ -14,11 +14,10 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        $recipes = Recipe::paginate(7);
-        $products = Product::all();
+        $products = Product::with('recipes.rawMaterial')->paginate(7);
         $materials = RawMaterial::all();
 
-        return view('components.recipes', compact('recipes', 'products', 'materials'));
+        return view('components.recipes', compact('products', 'materials'));
     }
 
     /**

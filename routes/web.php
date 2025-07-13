@@ -26,7 +26,7 @@ Route::middleware(['auth'])->group(function () {
         return redirect()->route('sales.report');
 })->name('dashboard');
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'role:super_admin'])->group(function () {
     Route::resource('/users', UserController::class);
     // Route::get('/users', [UserController::class, 'index'])->name('users');
 });
