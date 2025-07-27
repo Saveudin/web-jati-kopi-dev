@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Sale;
+use App\Models\Stock;
 use App\Models\Product;
 use App\Models\SaleItem;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class SaleController extends Controller
      */
     public function index()
     {
-        $products = Product::with('recipes.rawMaterial')->get();
+        $products = Product::with('recipes.rawMaterial', 'stock')->get();
         $sales = Sale::with('saleItems.product')
             ->orderBy('created_at', 'desc')
             ->paginate(7);
@@ -99,13 +100,14 @@ public function exportPDF(Request $request)
 
 public function store(Request $request) 
 {
+
     $request->validate([
         'product_ids' => 'required|array',
         'quantities' => 'required|array',
     ]);
 
     foreach ($request->product_ids as $index => $product_id) {
-        $product = Product::with('recipes.rawMaterial')->findOrFail($product_id);
+        $product = Product::with('recipes.rawMaterial', 'stock')->findOrFail($product_id);
         $qty = $request->quantities[$index];
 
         foreach ($product->recipes as $recipe) {
@@ -119,12 +121,14 @@ public function store(Request $request)
     }
 
     $totalPrice = 0;
+    
 
     foreach ($request->product_ids as $index => $product_id) {
         $product = Product::findOrFail($product_id);
         $qty = $request->quantities[$index];
         $totalPrice += $product->price * $qty;
     }
+
 
     $user = Auth::id();
 
@@ -136,8 +140,9 @@ public function store(Request $request)
     ]);
 
     foreach ($request->product_ids as $index => $product_id) {
-        $product = Product::with('recipes.rawMaterial')->findOrFail($product_id);
-        $qty = $request->quantities[$index];
+        // $product = Product::with('recipes.rawMaterial')->findOrFail($product_id);
+        // $qty = $request->quantities[$index];
+        Stock::where('product_id', $product_id)->decrement('quantity', $qty);
 
         SaleItem::create([
             'sale_id' => $sale->id,
@@ -147,19 +152,6 @@ public function store(Request $request)
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
-        foreach ($product->recipes as $recipe) {
-            $usedQty = $recipe->quantity * $qty;
-            $recipe->rawMaterial->decrement('stock', $usedQty);
-            StockMovement::create([
-                'raw_material_id' => $recipe->raw_material_id,
-                'change' => -$usedQty,
-                'type' => 'usage',
-                'note' => 'Digunakan untuk penjualan produk: ' . $product->name,
-                'created_at' => now(),
-            ]);
-            
-        }
     }
     return redirect()->route('sales')->with('success', 'Transaksi berhasil disimpan');
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\RawMaterial;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -14,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category')->paginate(7);
+        $products = Product::with('category', 'stock')->paginate(7);
         $materials = RawMaterial::all();
         $categories = Category::all();
         return view('components.products', compact('products', 'categories', 'materials'));
@@ -51,6 +52,10 @@ class ProductController extends Controller
         // Validate the request data
         if ($validated) {
             Product::create($data);
+            Stock::create([
+                'product_id' => Product::latest()->first()->id,
+                'quantity' => 0,
+            ]);
             return redirect()->route('products')->with('success', 'Products added successfully');
         }
         else {
@@ -83,6 +88,7 @@ class ProductController extends Controller
             'category' => 'required',
             'name' => 'required|max:30',
             'price' => 'required|min:1|integer',
+            'stock' => 'required|integer|min:0',
         ]);
 
         $data = [
@@ -95,6 +101,7 @@ class ProductController extends Controller
         if ($validated) {
             // return redirect()->back()->withErrors('All fields are required.');
             Product::where('id', $id)->update($data);
+            Stock::where('product_id', $id)->update(['quantity' => $request->input('stock')]);
             return redirect(route('products'))->with('success', 'Task updated successfully');
         }
         else {

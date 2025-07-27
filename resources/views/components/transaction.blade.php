@@ -66,7 +66,7 @@
                                 <td class="px-4 py-3">{{ $sale->total }}</td>
                                 <td class="px-4 py-3">{{ $sale->created_at }}</td>
                                 <td class="px-4 py-3">
-                                    <a href="{{ route('transactions.print', ['id' => $item->sale_id]) }}" target="_blank"
+                                    <a href="{{ route('transactions.print', ['id' => $sale->id]) }}" target="_blank"
                                         class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                                         Print Bill
                                     </a>
@@ -116,7 +116,7 @@
                                 </option>
                             @endforeach
                         </select>
-                        <input type="number" name="quantities[]" class="quantity-input mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Qty" min="1" required>
+                        <input type="number" name="quantities[]" class="quantity-input mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Qty" oninput="this.value = this.value.replace(/^0+(?=\d)/, '')" step="1" min="1" pattern="^(?!0\d)\d+(\.\d{1,2})?$" required>
                         <input type="text" class="subtotal mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Subtotal" readonly>
                         <button type="button" class="remove-row mt-2 text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Remove product</button>
                     </div>

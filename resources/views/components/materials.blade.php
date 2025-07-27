@@ -98,7 +98,7 @@
                                                 </div>
                                                 <div>
                                                     <label for="stock" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stock</label>
-                                                    <input type="number" name="stock" id="update-price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $item->stock }}">
+                                                    <input type="number" oninput="this.value = this.value.replace(/^0+(?=\d)/, '')" step="1" min="1" pattern="^(?!0\d)\d+(\.\d{1,2})?$" name="stock" id="update-price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $item->stock }}">
                                                 </div>
                                                 <div>
                                                     <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit</label>
@@ -165,11 +165,11 @@
                     </div>
                     <div>
                         <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-                        <input type="number" name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                        <input type="number" oninput="this.value = this.value.replace(/^0+(?=\d)/, '')" step="1" min="1" pattern="^(?!0\d)\d+(\.\d{1,2})?$" name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
                     </div>
                     <div>
                         <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stock</label>
-                        <input type="number" name="stock" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Stock" required="">
+                        <input type="number" oninput="this.value = this.value.replace(/^0+(?=\d)/, '')" step="1" min="1" pattern="^(?!0\d)\d+(\.\d{1,2})?$" name="stock" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Stock" required="">
                     </div>
                     <div>
                         <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit</label>

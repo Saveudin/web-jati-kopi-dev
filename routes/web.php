@@ -3,12 +3,20 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SaleController;
+<<<<<<< Updated upstream
+=======
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\StockController;
+>>>>>>> Stashed changes
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\StockMovementController;
+<<<<<<< Updated upstream
 use App\Http\Controllers\UserController;
+=======
+>>>>>>> Stashed changes
 use App\Http\Middleware\RedirectIfAuthenticatedCustom;
 
 Route::middleware(RedirectIfAuthenticatedCustom::class)->group(function () {
@@ -26,9 +34,14 @@ Route::middleware(['auth'])->group(function () {
         return redirect()->route('sales.report');
 })->name('dashboard');
 
+<<<<<<< Updated upstream
 Route::middleware(['auth', 'role:super_admin'])->group(function () {
     Route::resource('/users', UserController::class);
     // Route::get('/users', [UserController::class, 'index'])->name('users');
+=======
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::resource('/users', UserController::class);
+>>>>>>> Stashed changes
 });
 
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
@@ -53,10 +66,18 @@ Route::post('/admin/product', [ProductController::class, 'store'])->name('produc
 Route::put('/admin/product/{id}', [ProductController::class, 'update'])->name('product.update');
 Route::delete('/admin/product/{id}', [ProductController::class, 'destroy'])->name('product.delete');
 
+Route::get('/admin/stock-control', [StockController::class, 'index'])->name('stock-control');
+Route::put('/admin/stock-control/{id}', [StockController::class, 'update'])->name('stock-control.update');
+
 Route::get('/admin/recipes', [RecipeController::class, 'index'])->name('recipes');
 Route::post('/admin/recipe', [RecipeController::class, 'store'])->name('recipe.post');
 Route::put('/admin/recipe/{id}', [RecipeController::class, 'update'])->name('recipe.update');
 Route::delete('/admin/recipe/{id}', [RecipeController::class, 'destroy'])->name('recipe.delete');
+
+// edit dan hapus
+// Route::put('/recipe/update/{id}', [RecipeController::class, 'updateSingle'])->name('recipe.update.single');
+// Route::delete('/recipe/delete/{id}', [RecipeController::class, 'deleteSingle'])->name('recipe.delete.single');
+
 
 Route::get('/admin/sales', [SaleController::class, 'index'])->name('sales');
 Route::post('/admin/sale', [SaleController::class, 'store'])->name('sale.post');

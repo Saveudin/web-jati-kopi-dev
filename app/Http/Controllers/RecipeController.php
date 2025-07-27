@@ -15,6 +15,7 @@ class RecipeController extends Controller
     public function index()
     {
         $products = Product::with('recipes.rawMaterial')->paginate(7);
+       
         $materials = RawMaterial::all();
 
         return view('components.recipes', compact('products', 'materials'));
@@ -33,21 +34,22 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
     $request->validate([
         'product_id' => 'required|exists:products,id',
         'raw_materials' => 'required|array|min:1',
         'quantities' => 'required|array|min:1',
-        'unit' => 'required|string',
+        'units' => 'required|array|min:1',
     ]);
 
-        foreach ($request->raw_materials as $index => $raw_material_id) {
-            Recipe::create([
-                'product_id' => $request->product_id,
-                'raw_material_id' => $raw_material_id,
-                'quantity' => $request->quantities[$index],
-                'unit' => $request->unit,
-            ]);
-        }
+    foreach ($request->raw_materials as $index => $raw_material_id) {
+        Recipe::create([
+            'product_id' => $request->product_id,
+            'raw_material_id' => $raw_material_id,
+            'quantity' => $request->quantities[$index],
+            'unit' => $request->units[$index],
+        ]);
+    }
 
     return redirect()->route('recipes')->with('success', 'Resep berhasil disimpan.');
 
@@ -75,14 +77,18 @@ class RecipeController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'raw_material_id' => 'required|exists:raw_materials,id',
-            'quantity' => 'required|numeric',
-            'unit' => 'required|string',
+            'raw_material' => 'required|string|min:1',
+            'quantity' => 'required|string|min:1',
+            'unit' => 'required|min:1',
         ]);
 
         $recipe = Recipe::findOrFail($id);
-        $recipe->update($request->all());
+
+        // Update resep yang dipilih saja
+        $recipe->raw_material_id = $request->raw_material;
+        $recipe->quantity = $request->quantity;
+        $recipe->unit = $request->unit;
+        $recipe->save();
 
         return redirect()->route('recipes')->with('success', 'Resep berhasil diperbarui.');
     }
@@ -92,9 +98,11 @@ class RecipeController extends Controller
      */
     public function destroy(string $id)
     {
-        $recipe = Recipe::findOrFail($id);
+        $recipe = Recipe::where('id', $id);
         $recipe->delete();
 
         return redirect()->route('recipes')->with('success', 'Resep berhasil dihapus.');
     }
+
+
 }

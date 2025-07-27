@@ -24,7 +24,7 @@ class Recipe extends Model
         return $this->belongsTo(Product::class);
     }
     public function rawMaterial()
-{
-    return $this->belongsTo(RawMaterial::class);
-}
+    {
+        return $this->belongsTo(RawMaterial::class);
+    }
 }

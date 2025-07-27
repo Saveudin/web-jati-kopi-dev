@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-        $table->string('role')->default('operator');
-    });
+        Schema::create('stocks', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->integer('quantity')->default(0);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role');
-        });
+        Schema::dropIfExists('stocks');
     }
 };

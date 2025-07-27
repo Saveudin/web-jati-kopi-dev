@@ -22,7 +22,7 @@ class Product extends Model
 
     public function rawMaterial()
     {
-        return $this->belongsToMany(RawMaterial::class);
+        return $this->belongsToMany(RawMaterial::class, 'recipes');
     }
     
     public function category()
@@ -36,6 +36,10 @@ class Product extends Model
     public function saleItems()
     {
         return $this->hasMany(SaleItem::class);
+    }
+    public function stock()
+    {
+        return $this->hasMany(Stock::class);
     }
 }
 

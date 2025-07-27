@@ -83,6 +83,13 @@
               </li>
               <li>
                 <a
+                  href="{{ route('stock-control') }}"
+                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >Stock Control</a
+                >
+              </li>
+              <li>
+                <a
                   href="{{ route('recipes') }}"
                   class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >Recipes</a
@@ -161,6 +168,13 @@
               </li>
               <li>
                 <a
+                  href="{{ route('stock-control') }}"
+                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >Stock Control</a
+                >
+              </li>
+              <li>
+                <a
                   href="{{ route('recipes') }}"
                   class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >Recipes</a
@@ -175,7 +189,7 @@
               </li>
             </ul>
           @auth
-            @if(auth()->user()->role === 'super_admin')
+            @if(auth()->user()->role === 'admin')
               <li>
                 <a
                   href="/users"

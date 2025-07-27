@@ -1,4 +1,4 @@
-stock
-resep
-number format
-super admin -> admin, admin -> op
+stock (done)
+resep (done)
+number format (done)
+super admin -> admin, admin -> op (done)

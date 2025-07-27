@@ -24,11 +24,19 @@
                 <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                     <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
                         {{-- Toggle Modal --}}
+<<<<<<< Updated upstream
                         <div class="flex justify-center m-5">
                             <button id="defaultModalButton" data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="block text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" type="button">
                             Create recipe
                             </button>
                         </div>
+=======
+                        {{-- <div class="flex justify-center m-5">
+                            <button id="defaultModalButton" data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="block text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" type="button">
+                            Create recipe
+                            </button>
+                        </div> --}}
+>>>>>>> Stashed changes
                         {{-- Toggle Modal End --}}
                     </div>
                 </div>
@@ -38,12 +46,8 @@
                             <tr>
                                 <th scope="col" class="px-4 py-3">ID</th>
                                 <th scope="col" class="px-4 py-3">Product Name</th>
-                                <th scope="col" class="px-4 py-3">Material Name</th>
-                                <th scope="col" class="px-4 py-3">Quantity</th>
-                                <th scope="col" class="px-4 py-3">Unit</th>
-                                <th scope="col" class="px-4 py-3">
-                                    <span class="sr-only">Actions</span>
-                                </th>
+                                <th scope="col" class="px-4 py-3">Recipe</th>
+                                <th scope="col" colspan="3" class="px-4 py-3">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,130 +59,153 @@
                             <tr class="border-b dark:border-gray-700">
                                 <td class="px-4 py-3">{{ $product->id }}</td>
                                 <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $product->name }}</th>
-                                <td class="px-4 py-3">
+                                
                                     @if ($product->recipes->count())
-                                        {{ $product->recipes->map(fn($r) => $r->rawMaterial ? "{$r->rawMaterial->name} ({$r->quantity} {$r->unit})" : null)->filter()->implode(', ') }}
-                                    @else
-                                        <span class="text-red-500">No materials found</span>
-                                    @endif
-                                </td>
-                                <td class="px-4 py-3 flex items-center justify-end">
-                                    <!-- Modal toggle Update -->
-                                    <div class="flex justify-center">
+                                        <td class="px-4 py-3 max-w-sm">
+                                                {{ $product->recipes->map(fn($r) => $r->rawMaterial ? "{$r->rawMaterial->name} ({$r->quantity} {$r->unit})" : null)->filter()->implode(', ') }}
+                                            
+                                        </td>
+                                        
+                                    <td class="px-4 py-3 flex gap-2">
                                         <button type="button"
                                             data-modal-target="detailProductModal{{ $product->id }}"
                                             data-modal-toggle="detailProductModal{{ $product->id }}"
-                                            class="block text-white bg-primary-700 cursor-pointer hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                            Detail
+                                            class="block text-white bg-yellow-700 cursor-pointer hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
+                                            Update
                                         </button>
-                                    </div>
-                                </td>
-                            </tr>
 
-                            {{-- detailProductModal --}}
-                            <div id="detailProductModal{{ $product->id }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
-                                <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-                                    <!-- Modal content -->
-
-                                    <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-                                        <!-- Modal header -->
-                                        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
-                                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                                Recipe Details
-                                            </h3>
-                                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="detailProductModal{{ $product->id }}">
-                                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                                                <span class="sr-only">Close modal</span>
-                                            </button>
-                                        </div>
-                                        <!-- Modal body -->
-                                        <div class="flex flex-col flex-wrap gap-4 mb-4">
-                                            <div class="flex-1 min-w-[200px]">
-                                                <label for="productName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Name</label>
-                                                <input type="text" id="productName" value="{{ $product->name }}" readonly class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                            </div>
-                                            <div class="grid gap-4 mb-4 sm:grid-cols-2">
-                                                <div>
-                                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingredients</label>
-                                                    @if ($product->recipes->count())
-                                                        <div class="overflow-x-auto">
-                                                            <div class="flex flex-col">
-                                                                @foreach ($product->recipes as $recipe)
-                                                                    <div class="flex items-center justify-between p-2 border-b dark:border-gray-600">
-                                                                        <span class="text-gray-900 dark:text-white">{{ $recipe->rawMaterial->name }} ({{ $recipe->quantity }} {{ $recipe->unit }})</span>
-                                                                        <button data-modal-target="updateProductModal{{ $product->id }}" data-modal-toggle="updateProductModal{{ $product->id }}" class="block text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" type="button">
-                                                                            Edit
-                                                                        </button>
+                                        {{-- detailProductModal --}}
+                                        <div id="detailProductModal{{ $product->id }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+                                            <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+                                                <!-- Modal content -->
+                                                <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                                                    <!-- Modal header -->
+                                                    <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                            Recipe Details
+                                                        </h3>
+                                                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="detailProductModal{{ $product->id }}">
+                                                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                                            </svg>
+                                                            <span class="sr-only">Close modal</span>
+                                                        </button>
+                                                    </div>
+                                                    <!-- Modal body -->
+                                                    <div class="flex flex-col flex-wrap gap-4 mb-4">
+                                                        <div class="flex-1 min-w-[200px]">
+                                                            <label for="productName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Name</label>
+                                                            <input type="text" id="productName" value="{{ $product->name }}" readonly class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                                        </div>
+                                                        <div class="grid gap-4 mb-4 sm:grid-cols-1">
+                                                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingredients</label>
+                                                            @if ($product->recipes->count())
+                                                                <div class="overflow-x-auto max-h-64">
+                                                                    <div class="flex flex-col">
+                                                                        @foreach ($product->recipes as $recipe)
+                                                                            <div class="flex items-center justify-between p-2 border-b dark:border-gray-600 gap-2">
+                                                                                <form action="{{ route('recipe.update', ['id' => $recipe->id]) }}" method="POST" class="flex items-center gap-2 w-full">
+                                                                                    @csrf
+                                                                                    @method('PUT')
+                                                                                    <select name="raw_material" class="w-1/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
+                                                                                        @foreach($materials as $m)
+                                                                                            <option value="{{ $m->id }}" {{ $recipe->raw_material_id == $m->id ? 'selected' : '' }}>{{ $m->name }}</option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                    <input type="number" oninput="this.value = this.value.replace(/^0+(?=\d)/, '')" step="1" min="1" pattern="^(?!0\d)\d+(\.\d{1,2})?$" name="quantity" value="{{ $recipe->quantity }}" class="w-1/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
+                                                                                    <select name="unit" class="w-1/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
+                                                                                        <option value="gram" {{ $recipe->unit == 'gram' ? 'selected' : '' }}>gram</option>
+                                                                                        <option value="mililiter" {{ $recipe->unit == 'mililiter' ? 'selected' : '' }}>mililiter</option>
+                                                                                    </select>
+                                                                                    <button type="submit" class="w-1/3 text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Update</button>
+                                                                                </form>
+                                                                                <form action="{{ route('recipe.delete', ['id' => $recipe->id]) }}" method="POST" class="mt-2 ml-auto">
+                                                                                    @csrf
+                                                                                    @method('DELETE')
+                                                                                    <button type="submit" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                                                                                        Delete
+                                                                                    </button>
+                                                                                </form>
+                                                                            </div>
+                                                                        @endforeach
                                                                     </div>
-                                                                @endforeach
+                                                                </div>
+                                                            @else
+                                                                <span class="text-red-500">No materials found</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End detailProductModal -->
+                                        <button id="defaultModalButton{{ $product->id }}" data-modal-target="defaultModal{{ $product->id }}" data-modal-toggle="defaultModal{{ $product->id }}" class="block text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" type="button">
+                                            Add Ingredient
+                                        </button>
+                                    </td>
+                                    @else
+                                    <td class="px-4 py-3">
+                                        <span class="text-red-500">No materials found</span>
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <button id="defaultModalButton{{ $product->id }}" data-modal-target="defaultModal{{ $product->id }}" data-modal-toggle="defaultModal{{ $product->id }}" class="block text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" type="button">
+                                            Add recipe
+                                        </button>
+                                    </td>
+                                    @endif
+
+                                    <div id="defaultModal{{ $product->id }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+                                        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+                                            <!-- Modal content -->
+                                            <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                                                <!-- Modal header -->
+                                                <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                        Add Recipe
+                                                    </h3>
+                                                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal{{ $product->id }}">
+                                                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                                        <span class="sr-only">Close modal</span>
+                                                    </button>
+                                                </div>
+                                                <!-- Modal body -->
+                                                <form action="{{ route('recipe.post') }}" method="POST">
+                                                    @csrf
+                                                    <div class="grid gap-4 mb-4 sm:grid-cols-2">
+                                                        <div>
+                                                            <label for="product" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product</label>
+                                                            <input type="text" name="product_id" value="{{ $product->id }}" hidden>
+                                                            <input type="text" value="{{ $product->name }}" readonly class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                                        </div>
+                                                        <div class="max-h-96 overflow-y-auto">
+                                                            <div class="ingredients">
+                                                                <div class="ingredient-row flex flex-col gap-2">
+                                                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingredients</label>
+                                                                    <select name="raw_materials[]" class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+                                                                        @foreach ($materials as $material)
+                                                                            <option value="{{ $material->id }}">{{ $material->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="number" oninput="this.value = this.value.replace(/^0+(?=\d)/, '')" step="1" min="1" pattern="^(?!0\d)\d+(\.\d{1,2})?$" name="quantities[]" placeholder="Quantity" required>
+                                                                <select name="units[]" class="mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+                                                                    <option value="" disabled selected>Select a unit</option>
+                                                                    <option value="gram">gram</option>
+                                                                    <option value="mililiter">mililiter</option>
+                                                                </select>
+                                                                {{-- <button type="button" class="remove-row mt-2 text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Remove</button> --}}
                                                             </div>
                                                         </div>
-                                                    @else
-                                                        <span class="text-red-500">No materials found</span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-
-                            <!-- Update modal -->
-                            <div id="updateProductModal{{ $product->id }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-60 justify-center items-center w-full md:inset-0 h-modal md:h-full">
-                                <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-                                    <!-- Modal content -->
-                                    <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-                                        <!-- Modal header -->
-                                        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
-                                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                                Update Recipe
-                                            </h3>
-                                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="updateProductModal{{ $product->id }}">
-                                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                                                <span class="sr-only">Close modal</span>
-                                            </button>
-                                        </div>
-                                        <!-- Modal body -->
-                                        <form action="{{ route('recipe.update', ['id' => $product->id]) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="grid gap-4 mb-4 sm:grid-cols-2">
-                                                <div>
-                                                    <input type="text" name="product_id" value="{{ $product->id }}" hidden>
-                                                    <label for="materials" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingredients</label>
-                                                    <select name="raw_material_id" class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
-                                                        @foreach ($materials as $material)
-                                                            <option value="{{ $material->id }}" {{ $material->id == $product->raw_material_id ? 'selected' : '' }}>{{ $material->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    @foreach($product->recipes as $recipe)
-                                                    <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="number" step="0.01" name="quantity" value="{{ $recipe->quantity }}" required>
-                                                    @endforeach
-                                                    <select id="unit" name="unit" class="mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                        <option value="" disabled selected>Select a unit</option>
-                                                        <option value="gram">gram</option>
-                                                        <option value="mililiter">mililiter</option>
-                                                    </select>
-                                                </div>
-                                            <div class="flex items-center space-x-4">
-                                                <button type="submit" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                                    Update Recipe
-                                                </button>
-                                            </form>
-                                                <form action="{{ route('recipe.delete', ['id'=> $product->id]) }}" method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
-                                                        <svg class="mr-1 -ml-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                                                        Delete
-                                                    </button>
+                                                        {{-- <button type="button" class="add-row mt-2 text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">+ Add Ingredient</button> --}}
+                                                        <button type="submit" class="mt-2 text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Add recipe</button>
+                                                    </div>
                                                 </form>
                                             </div>
-                                        
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            {{-- Update modal end --}}
+                            </tr>
+
+                            
+                            
                             @endforeach
                             {{-- Foreach table end --}}
                         </tbody>
@@ -189,10 +216,10 @@
                 </nav>
             </div>
         </div>
-        </section>
+    </section>
 
 <!-- Main modal -->
-<div id="defaultModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+{{-- <div id="defaultModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
         <!-- Modal content -->
         <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
@@ -223,6 +250,7 @@
                         <label for="quantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quantity</label>
                         <input type="number" name="quantity" id="quantity" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Quantity" required="">
                     </div> --}}
+                    {{--
                     <div class="max-h-96 overflow-y-auto">
                     <div id="ingredients">
                         <div class="ingredient-row">
@@ -232,7 +260,7 @@
                                     <option value="{{ $material->id }}">{{ $material->name }}</option>
                                 @endforeach
                             </select>
-                            <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="number" step="0.01" name="quantities[]" placeholder="Quantity" required>
+                            <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" type="number" oninput="this.value = this.value.replace(/^0+(?=\d)/, '')" step="1" min="1" pattern="^(?!0\d)\d+(\.\d{1,2})?$" name="quantities[]" placeholder="Quantity" required>
                         <select id="unit" name="unit" class="mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             <option value="" disabled selected>Select a unit</option>
                             <option value="gram">gram</option>
@@ -248,7 +276,7 @@
             </form>
         </div>
     </div>
-</div>
+</div> --}}
 {{-- main modal end --}}
 
 <script>
@@ -301,14 +329,29 @@
 </x-layout>
 
 <script>
-    document.getElementById('add-row').addEventListener('click', function() {
-        const row = document.querySelector('.ingredient-row').cloneNode(true);
-        document.getElementById('ingredients').appendChild(row);
-    });
+document.addEventListener('click', function(e) {
+    // Add row
+    if (e.target.classList.contains('add-row')) {
+        // Cari container ingredients terdekat
+        const ingredientsContainer = e.target.closest('.max-h-96').querySelector('.ingredients');
+        const firstRow = ingredientsContainer.querySelector('.ingredient-row');
+        const row = firstRow.cloneNode(true);
 
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('remove-row')) {
-            e.target.parentElement.remove();
+        // Bersihkan value pada row baru
+        row.querySelector('select[name="raw_materials[]"]').selectedIndex = 0;
+        row.querySelector('input[name="quantities[]"]').value = '';
+        row.querySelector('select[name="units[]"]').selectedIndex = 0;
+
+        ingredientsContainer.appendChild(row);
+    }
+
+    // Remove row
+    if (e.target.classList.contains('remove-row')) {
+        const ingredientsContainer = e.target.closest('.ingredients');
+        const rows = ingredientsContainer.querySelectorAll('.ingredient-row');
+        if (rows.length > 1) {
+            e.target.closest('.ingredient-row').remove();
         }
-    });
-</script> 
+    }
+});
+</script>
