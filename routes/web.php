@@ -3,20 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SaleController;
-<<<<<<< Updated upstream
-=======
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StockController;
->>>>>>> Stashed changes
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\StockMovementController;
-<<<<<<< Updated upstream
-use App\Http\Controllers\UserController;
-=======
->>>>>>> Stashed changes
 use App\Http\Middleware\RedirectIfAuthenticatedCustom;
 
 Route::middleware(RedirectIfAuthenticatedCustom::class)->group(function () {
@@ -34,14 +27,8 @@ Route::middleware(['auth'])->group(function () {
         return redirect()->route('sales.report');
 })->name('dashboard');
 
-<<<<<<< Updated upstream
-Route::middleware(['auth', 'role:super_admin'])->group(function () {
-    Route::resource('/users', UserController::class);
-    // Route::get('/users', [UserController::class, 'index'])->name('users');
-=======
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('/users', UserController::class);
->>>>>>> Stashed changes
 });
 
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
