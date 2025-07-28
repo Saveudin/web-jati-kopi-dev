@@ -101,6 +101,8 @@ public function exportPDF(Request $request)
 public function store(Request $request) 
 {
 
+    
+
     $request->validate([
         'product_ids' => 'required|array',
         'quantities' => 'required|array',
@@ -109,6 +111,12 @@ public function store(Request $request)
     foreach ($request->product_ids as $index => $product_id) {
         $product = Product::with('recipes.rawMaterial', 'stock')->findOrFail($product_id);
         $qty = $request->quantities[$index];
+        
+        $availableStock = $product->stock->sum('quantity');
+
+        if ($qty > $availableStock) {
+            return back()->withErrors('Jumlah pembelian melebihi stok untuk produk ' . $product->name);
+        }
 
         foreach ($product->recipes as $recipe) {
             $requiredQty = $recipe->quantity * $qty;
@@ -119,6 +127,7 @@ public function store(Request $request)
             }
         }
     }
+
 
     $totalPrice = 0;
     
@@ -142,7 +151,9 @@ public function store(Request $request)
     foreach ($request->product_ids as $index => $product_id) {
         // $product = Product::with('recipes.rawMaterial')->findOrFail($product_id);
         // $qty = $request->quantities[$index];
+
         Stock::where('product_id', $product_id)->decrement('quantity', $qty);
+        
 
         SaleItem::create([
             'sale_id' => $sale->id,

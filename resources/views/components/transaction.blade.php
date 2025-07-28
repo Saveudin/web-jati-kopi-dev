@@ -10,6 +10,12 @@
             </ul>
         </div>
     @endif
+    @if (session('error'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">Error</strong>
+        <span class="block sm:inline">{{ session('error') }}</span>
+    </div>
+    @endif
     @if (session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
             <strong class="font-bold">Success</strong>
@@ -17,6 +23,7 @@
         </div>
         
     @endif
+    
     <section class="bg-gray-200 dark:bg-gray-900 p-3 sm:p-5 h-full">
         <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
             <!-- Start coding here -->
@@ -109,11 +116,17 @@
             <div class="max-h-96 overflow-y-scroll">
                 <div id="items">
                     <div class="item-row">
-                        <select name="product_ids[]" class="product-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                        <select name="product_ids[]" class="product-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-300 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             @foreach($products as $product)
-                                <option value="{{ $product->id }}" data-price="{{ $product->price }}">
-                                    {{ $product->name }} - Rp{{ number_format($product->price) }}
-                                </option>
+                                @if($product->stock->sum('quantity') <= 0)
+                                    <option value="{{ $product->id }}" data-price="{{ $product->price }}" disabled>
+                                        {{ $product->name }} - Rp{{ number_format($product->price) }} (Out of Stock)
+                                    </option>
+                                @else
+                                    <option value="{{ $product->id }}" data-price="{{ $product->price }}" data-stock="{{ $product->stock->sum('quantity') }}">
+                                        {{ $product->name }} - Rp{{ number_format($product->price) }}
+                                    </option>
+                                @endif
                             @endforeach
                         </select>
                         <input type="number" name="quantities[]" class="quantity-input mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Qty" oninput="this.value = this.value.replace(/^0+(?=\d)/, '')" step="1" min="1" pattern="^(?!0\d)\d+(\.\d{1,2})?$" required>
@@ -196,4 +209,20 @@ function updateSubtotals() {
     });
     document.getElementById('total-price').textContent = total.toLocaleString();
 }
+
+document.addEventListener("input", function (e) {
+    if (e.target.classList.contains("qty-input")) {
+        const qtyInput = e.target;
+        const select = qtyInput.closest('.product-row').querySelector('.product-select');
+        const selectedOption = select.options[select.selectedIndex];
+        const maxStock = parseInt(selectedOption.getAttribute("data-stock"));
+        const qty = parseInt(qtyInput.value);
+
+        if (qty > maxStock) {
+            alert("Jumlah melebihi stok yang tersedia!");
+            qtyInput.value = maxStock;
+        }
+    }
+});
+
 </script>
